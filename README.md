@@ -19,37 +19,9 @@ layer, into a trained regression model, into two deployable interfaces (an Excel
 and a Power BI report), all of which recalculate automatically when new data is added. See
 `01_Scope_Statement.md` for the scope defined before the build started.
 
-## 2. What's in this delivery
 
-| File | What it is |
-|---|---|
-| `01_Scope_Statement.md` | Scope written before building |
-| `02_Power_BI_Build_Guide.md` | Exact steps + Power Query M + DAX to build the Power BI report |
-| `03_README.md` | This file |
-| `IT_Consultancy_Proposal_WinRate_Pipeline.xlsx` | The full working pipeline (see sheet guide below) |
-| `Proposal_Data.csv` | The raw dataset, standalone — use this for both the Jupyter notebook and the Power BI import |
 
-**Data note:** all proposal data is synthetic — 150 simulated bids, built with realistic (not
-random) relationships between deal attributes and win/loss outcome, since real bid data wasn't
-available or appropriate to use for a training exercise. Disclosed on the workbook's `Start_Here`
-sheet as well.
-
-### Workbook sheet guide
-| Sheet | Purpose |
-|---|---|
-| `Start_Here` | Navigation + how to refresh the pipeline with new data |
-| `Raw_Data` | 151-row simulated raw export, **deliberately containing 12 realistic data-quality issues** used to stress-test the cleaning layer (see §4) |
-| `Lookup_Tables` | Industry list + historical win rate (computed live from Raw_Data), plus every imputation statistic the formulas depend on |
-| `Cleaned_Data` | Formula-driven cleaning layer: trims text, standardizes categories, imputes missing/invalid numbers, flags every row that needed a fix |
-| `Model_Ready_Data` | 150 rows (one confirmed duplicate excluded), numerically encoded, ready for regression |
-| `Model` | The regression itself — Excel `LINEST`, full fit statistics, and a predicted-vs-actual table for every proposal |
-| `Predictor` | The deployment interface — enter a new proposal's attributes, get an instant win-probability prediction and recommendation |
-| `Dashboard` | KPIs, win-rate-by-industry chart, confidence-tier distribution, and a predicted-vs-actual accuracy scatter chart |
-| `Testing_Log` | Every injected data issue, the expected fix, and a **live formula pulling the actual cleaned result** as proof |
-| `Data_Dictionary` | Every column, every sheet, defined |
-| `Changelog` | Real build history — what broke and what changed (see §5) |
-
-## 3. Tools and technique
+## 2. Tools and technique
 
 - **Excel** — synthetic data generation, formula-driven ETL/cleaning, a linear-probability
   regression via `LINEST`, and an interactive scoring interface.
@@ -65,7 +37,7 @@ sheet as well.
   Training once and deploying fixed coefficients as a DAX measure is a defensible, standard
   professional pattern — explained further at the end of the Build Guide.
 
-## 4. What was tested, and what was found
+## 3. What was tested, and what was found
 
 Twelve distinct, realistic data-quality problems were deliberately injected into a working copy
 of the clean synthetic dataset before building the cleaning layer against it. Full detail with
